@@ -200,6 +200,7 @@ function destroy(req, res) {
     }
 
     res.sendStatus(204);
+    console.log("Eliminato il post con ID: " + id);
   });
 
   //# TO DO: USA DB
