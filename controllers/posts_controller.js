@@ -40,6 +40,28 @@ function show(req, res) {
   // recuperiamo l'id dall' URL
   const id = parseInt(req.params.id);
 
+  // la query per il post
+  const postSql = "SELECT * FROM post WHERE id = ?";
+
+  // la query per le label
+  const tagsSql = `
+  SELECT 
+  posts. id AS post_id,
+  posts. title AS post_title,
+  posts. content AS post_content,
+  GROUP_CONCAT(tags. label) AS post_tags 
+
+  FROM posts
+
+  INNER JOIN post_tag
+  ON posts. id = post_tag.post_id
+
+  INNER JOIN tags
+  ON tags.id = post_tag. tag_id 
+  
+  GROUP BY  posts. id
+  `;
+
   const sql = "SELECT * FROM posts WHERE id = ?";
   dbConnection.query(sql, [id], (err, results) => {
     if (err) {
