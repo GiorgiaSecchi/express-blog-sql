@@ -99,11 +99,7 @@ function store(req, res) {
         return res.status(500).json({ error: "Failed to add post" });
       }
 
-      res.json({
-        title: req.body.title,
-        content: req.body.content,
-        image: req.body.image,
-      });
+      res.json(newPostData);
     }
   );
 
