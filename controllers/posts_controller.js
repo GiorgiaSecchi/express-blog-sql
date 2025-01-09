@@ -71,6 +71,34 @@ function show(req, res) {
 //# STORE
 
 function store(req, res) {
+  //* creo nuovo oggetto post
+  const newPostData = {
+    title: req.body.title,
+    content: req.body.content,
+    // image: req.body.image,
+    // label: req.body.label,
+  };
+
+  // //* controllo SE errore uno dei nuovi parametri inseriti
+  if (
+    !req.body.title ||
+    !req.body.content
+    // / !req.body.image ||
+    // /!Array.isArray(req.body.label) // = se "label" non è un array
+  ) {
+    return res.status(403).json({ error: "Invalid params" });
+  }
+
+  const sql = "INSERT TO posts (title, content) VALUES (?, ?)";
+  dbConnection.query(sql, [title, content], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Failed to add post" });
+    }
+
+    res.json({ title, content });
+  });
+
   //# TO DO: USA DB
   // // const newPostData = req.body;
   // // console.log(newPostData);
