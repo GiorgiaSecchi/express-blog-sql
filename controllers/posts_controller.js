@@ -62,6 +62,8 @@ function show(req, res) {
   GROUP BY  posts. id
   `;
 
+  //# TO DO: COMPLETARE ESECUZIONE DI ENTRAMBE LE QUERY
+
   const sql = "SELECT * FROM posts WHERE id = ?";
   dbConnection.query(sql, [id], (err, results) => {
     if (err) {
@@ -75,7 +77,7 @@ function show(req, res) {
     res.json(results[0]);
   });
 
-  //# TO DO: USA DB
+  //? Versione precedente, senza SQL
   // //* logica per recupero id
   // const id = parseInt(req.params.id);
   // const post = postsData.find((post) => post.id === id);
