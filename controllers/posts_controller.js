@@ -7,9 +7,14 @@ const dbConnection = require("../data/db_connection");
 function index(req, res) {
   // prepariamo la query
   const sql = "SELECT * FROM posts";
+
   // eseguiamo la query
   dbConnection.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ error: "Database query failed" });
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Database query failed" });
+    }
+
     res.json(results);
   });
 
@@ -32,6 +37,22 @@ function index(req, res) {
 //# SHOW
 
 function show(req, res) {
+  // recuperiamo l'id dall' URL
+  const id = parseInt(req.params.id);
+
+  const sql = "SELECT * FROM posts WHERE id = ?";
+  dbConnection.query(sql, [id], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Database query failed" });
+    }
+
+    if (results.length === 0)
+      return res.status(404).json({ error: "Pizza not found" });
+
+    res.json(results[0]);
+  });
+
   //# TO DO: USA DB
   // //* logica per recupero id
   // const id = parseInt(req.params.id);
