@@ -48,7 +48,7 @@ function show(req, res) {
     }
 
     if (results.length === 0)
-      return res.status(404).json({ error: "Pizza not found" });
+      return res.status(404).json({ error: "Post not found" });
 
     res.json(results[0]);
   });
@@ -158,6 +158,18 @@ function modify(req, res) {
 //# DESTROY
 
 function destroy(req, res) {
+  // recuperiamo l'id dall' URL
+  const id = parseInt(req.params.id);
+
+  dbConnection.query("DELETE FROM posts WHERE id = ?", [id], (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Failed to delete post" });
+    }
+
+    res.sendStatus(204);
+  });
+
   //# TO DO: USA DB
   // //* logica per recupero id
   // const id = parseInt(req.params.id);
