@@ -1,15 +1,23 @@
 //# COLLEGAMENTO DB BLOG
-
+// Importiamo file di connessione al database
 const dbConnection = require("../data/db_connection");
 
 //# INDEX
 
 function index(req, res) {
-  const tag = req.query.tag;
+  // prepariamo la query
+  const sql = "SELECT * FROM posts";
+  // eseguiamo la query
+  dbConnection.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ error: "Database query failed" });
+    res.json(results);
+  });
+
+  //# TO DO: ripristina filtri con nuovo database
+
+  // const tag = req.query.tag;
   // res.json(tag);
   // console.log("TAG: " + tag);
-
-  //# TO DO: USA DB
 
   // if (tag) {
   //   const filteredPosts = postsData.filter((post) =>
